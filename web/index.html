@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetCDF test</title>
+    <style>
+        .main-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript" src="visualize.js"></script>
+    <script>
+        const openFile = Module.cwrap('open_file', 'boolean', ['string']);
+        const getTitle = Module.cwrap('get_title', 'string', []);
+        const getVariables = Module.cwrap('get_variables', 'string', []);
+        const getDimensions = Module.cwrap('get_dimensions', 'string', []);
+        const closeFile = Module.cwrap('close_file', null, []);
+        const getVariableDimensions = Module.cwrap('get_variable_dimensions', 'string', ['string']);
+
+        Module.onRuntimeInitialized = () => {
+            enableFileInput();
+        };
+
+        function enableFileInput() {
+            document.getElementById("fileInput").disabled = false;
+        }
+
+        async function mountFile(file) {
+            const path = `/${file.name}`;
+            const buffer = await file.arrayBuffer();
+            const fp = FS.open(path, 'w+');
+            const view = new Uint8Array(buffer);
+            FS.write(fp, view, 0, view.length, 0);
+            FS.close(fp);
+            return path;
+        }
+
+        function unmountFile(path) {
+            FS.unlink(path);
+        }
+
+        function unloadFile(path) {
+            closeFile();
+            unmountFile(path);
+        }
+
+        function getSelectedFile() {
+            const element = document.getElementById("fileInput");
+            const allFiles = element.files;
+            if(allFiles.length > 0) {
+                return allFiles[0];
+            }
+            return null;
+        }
+
+        function displayError(error) {
+            document.getElementById("errorContainer").innerText = error;
+        }
+
+        async function loadFile() {
+            const currentFile = getSelectedFile();
+            if(currentFile != null) {
+                const path = await mountFile(currentFile);
+                const opened = openFile(path);
+                if(!opened) {
+                    displayError("Could not open file.");
+                    return;
+                }
+
+                const title = getTitle();
+                document.getElementById("titleText").innerText = title;
+                const variables = getVariables();
+                document.getElementById("variableText").innerText = variables;
+                const dimensions = getDimensions();
+                document.getElementById("dimensionText").innerText = dimensions;
+
+                const variableSplit = variables.split(",");
+                for(let variable of variableSplit) {
+                    const dimensions = getVariableDimensions(variable);
+                    console.log(`Dimensions for ${variable}: ${dimensions}`);
+                }
+
+                unloadFile(path);
+            } else {
+                displayError("No file selected.");
+            }
+        }
+    </script>
+    <div class="main-container">
+        <input type="file" id="fileInput" name="ncfile" disabled="true" />
+        <button onclick="loadFile()" style="width: 200px;">Load</button>
+        <div id="errorContainer"></div>
+        <div id="titleText"></div>
+        <div id="variableText"></div>
+        <div id="dimensionText"></div>
+    </div>
+</body>
+</html>
