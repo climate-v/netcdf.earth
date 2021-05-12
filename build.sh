@@ -35,6 +35,6 @@ if [ "$BUILD_TYPE" = "full" ]; then
 	rustup target add wasm32-unknown-emscripten
 fi
 
-echo "==> Building netcdf-rust"
-cd "$NETCDF_RUST_DIR"
-cargo build --features "static,memory" --target wasm32-unknown-emscripten
+echo "==> Building wrapper library"
+cd "visualize"
+cargo build --target wasm32-unknown-emscripten --release
