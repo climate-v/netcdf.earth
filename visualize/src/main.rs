@@ -166,6 +166,31 @@ pub extern fn get_variable_dimensions(name: *mut c_char) -> *mut c_char {
 }
 
 #[no_mangle]
+pub extern fn get_variable_string_attribute(variable: *mut c_char, attribute: *mut c_char) -> *mut c_char {
+    let guard = FILE_MUTEX.lock().unwrap();
+    let variable_name = from_js_str(variable);
+    let attribute_name = from_js_str(attribute);
+    match &*guard {
+        None => return to_cstr(""),
+        Some(file) => {
+            match file.variable(&variable_name) {
+                Some(variable) => {
+                    if let Some(attrib) = variable.attribute(&attribute_name) {
+                        match attrib.value().unwrap() {
+                            AttrValue::Str(x) => return to_cstr(&x),
+                            _ => return to_cstr("wrong attr type")
+                        }
+                    } else {
+                        return to_cstr("");
+                    }
+                }
+                _ => return to_cstr("")
+            }
+        }
+    }
+}
+
+#[no_mangle]
 pub extern fn open_file(name: *mut c_char) -> bool {
     let file_name = from_js_str(name);
     let mut guard = FILE_MUTEX.lock().unwrap();
