@@ -6,3 +6,6 @@
 	path = netcdf-rust
 	url = git@github.com:climate-v/netcdf-rust.git
 	branch = v0.6.1-emscripten
+[submodule "earth"]
+	path = earth
+	url = git@github.com:climate-v/earth.git
