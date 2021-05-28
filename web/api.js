@@ -146,6 +146,14 @@ const api = {
 }
 
 api.getTitle = () => api.getStringAttribute('title');
+api.getVariableValue = (variable, ...args) => {
+    const variableType = api.getVariableType(variable);
+    return api[`getVariableValue${variableType.toUpperCase()}`](variable, ...args);
+};
+api.getVariableValues = (variable, ...args) => {
+    const variableType = api.getVariableType(variable);
+    return api[`getVariableValues${variableType.toUpperCase()}`](variable, ...args);
+};
 
 for (let varType of VALUE_TYPES) {
     api[`getVariableValues${varType.toUpperCase()}`] = cwrapArrayReturn(cwrapArrayParams(`get_${varType}_values_for`, 'number', ['string', 'array', 'array'], ['i32', 'i32']), varType);
