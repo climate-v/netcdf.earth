@@ -299,3 +299,19 @@ get_value_def!(f64, 0.0);
 get_value_def!(u8, 0);
 get_value_def!(u16, 0);
 get_value_def!(u32, 0);
+
+#[no_mangle]
+pub extern fn get_dimension_len(name: *mut c_char) -> usize {
+    let guard = FILE_MUTEX.lock().unwrap();
+    let dimension_name = from_js_str(name);
+    match &*guard {
+        None => return 0,
+        Some(file) => {
+            if let Some(dimension) = file.dimension(&dimension_name) {
+                return dimension.len();
+            } else {
+                return 0;
+            }
+        }
+    }
+}

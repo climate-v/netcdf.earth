@@ -141,7 +141,8 @@ const api = {
     getVariableDimensions: Module.cwrap('get_variable_dimensions', 'string', ['string']),
     dropBytes: Module.cwrap('drop_bytes', null, ['number']),
     getVariableType: Module.cwrap('get_variable_type', 'string', ['string']),
-    getVariableStringAttribute: Module.cwrap('get_variable_string_attribute', 'string', ['string', 'string'])
+    getVariableStringAttribute: Module.cwrap('get_variable_string_attribute', 'string', ['string', 'string']),
+    getDimensionLength: Module.cwrap('get_dimension_len', 'number', ['string'])
 }
 
 api.getTitle = () => api.getStringAttribute('title');
