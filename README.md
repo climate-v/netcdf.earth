@@ -9,3 +9,18 @@
     - `git clone --recurse-submodules <url>`
 4. Run build command
     - `./build.sh`
+
+To (re)build only the wasm library, run the following:
+    - `./build.sh fast`
+
+## Run visualization with custom data
+
+0. Make sure nodejs (and npm) is installed
+1. Install NPM dependencies
+    - `cd earth`
+    - `npm ci`
+2. Run dev-server
+    - `node dev-server.js 8001`
+3. Copy data files into `public/data/weather/current`
+4. Open browser with url: `http://localhost:8001/#current/wind/surface/level/filename=<filename>`
+    - `<filename>` is the name of the data file you want to visualize without `.nc` extension (e.g. `REG_PL_0001` for `REG_PL_0001.nc`)

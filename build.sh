@@ -37,4 +37,4 @@ fi
 
 echo "==> Building wrapper library"
 cd "visualize"
-cargo build --target wasm32-unknown-emscripten --release
+cargo build --target wasm32-unknown-emscripten
