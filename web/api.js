@@ -217,3 +217,11 @@ class NetCDFFile {
         }
     }
 }
+
+function waitModuleInit() {
+    return new Promise((resolve) => {
+        Module.onRuntimeInitialized = () => {
+            resolve();
+        };
+    });
+}
