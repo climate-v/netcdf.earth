@@ -1,11 +1,9 @@
 FROM emscripten/emsdk:1.39.20
 MAINTAINER Ugur Cayoglu <cayoglu@me.com>
 
-ENV CMAKE_LIBRARY_ARCHITECTURE=x86_64-linux-gnu
-
 RUN set -eux && \
     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates gcc libc6-dev wget build-essential m4
+    ca-certificates gcc libc6-dev wget build-essential
 
 ENV RUSTUP_HOME=/usr/local/rustup
 ENV CARGO_HOME=/usr/local/cargo
