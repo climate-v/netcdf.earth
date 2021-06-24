@@ -19,11 +19,6 @@ if [ "$1" = "fast" ]; then
 fi
 
 if [ "$BUILD_TYPE" = "full" ]; then
-	echo "==> Making sure we have the right branches checked out"
-	cd "$HDF5_RUST_DIR" && git checkout "$HDF5_RUST_BRANCH"
-	cd "$NETCDF_RUST_DIR" && git checkout "$NETCDF_RUST_BRANCH"
-	cd "$SCRIPT_DIR"
-
 	echo "==> Running hdf5 pregen"
 	cd "$HDF5_RUST_DIR/$HDF5_SOURCE_DIR"
 	mkdir -p "$HDF5_NATIVE_BUILD_DIR" && cd "$HDF5_NATIVE_BUILD_DIR"
