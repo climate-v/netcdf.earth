@@ -1,4 +1,11 @@
-# Build for netcdf-rust with Emscripten
+Web visualisation of (un)structured netCDF data.
+
+# Installation
+The visualisation can be deployed natively or within a docker container.
+
+## Native build
+
+### Build for netcdf-rust with Emscripten
 
 1. Ensure emsdk is setup and installed
     - `./emsdk install 1.39.20`
@@ -13,7 +20,7 @@
 To (re)build only the wasm library, run the following:
     - `./build.sh fast`
 
-## Run visualization with custom data
+#### Run visualization with custom data
 
 0. Make sure nodejs (and npm) is installed
 1. Install NPM dependencies
@@ -24,3 +31,20 @@ To (re)build only the wasm library, run the following:
 3. Copy data files into `public/data/weather/current`
 4. Open browser with url: `http://localhost:8001/#current/wind/surface/level/filename=<filename>`
     - `<filename>` is the name of the data file you want to visualize without `.nc` extension (e.g. `REG_PL_0001` for `REG_PL_0001.nc`)
+
+## Docker container
+
+Build container
+```
+docker build --tag climate-v/nre:latest .
+```
+
+Run/deploy container
+```
+docker run -p 80:80 climate-v/nre:latest
+```
+
+# Usage
+
+- Simply drag and drop netcdf files on browser window
+- Use HTTP link in request `|file=<link>`
