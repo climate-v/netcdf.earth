@@ -21,7 +21,7 @@ fi
 if [ "$BUILD_TYPE" = "full" ]; then
 	echo "==> Running hdf5 pregen"
 	cd "$HDF5_RUST_DIR/$HDF5_SOURCE_DIR"
-	mkdir "$HDF5_NATIVE_BUILD_DIR" && cd "$HDF5_NATIVE_BUILD_DIR"
+	mkdir -p "$HDF5_NATIVE_BUILD_DIR" && cd "$HDF5_NATIVE_BUILD_DIR"
 	cmake .. "-DHDF5_BUILDTOOLS=OFF" "-DBUILD_SHARED_LIBS=OFF" "-DHDF5_BUILD_EXAMPLES=OFF" "-DBUILD_TESTING=OFF"
 	make -j$(nproc)
 	cd "$SCRIPT_DIR"
