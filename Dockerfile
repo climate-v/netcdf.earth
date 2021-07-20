@@ -1,4 +1,4 @@
-FROM emscripten/emsdk:1.39.20
+FROM emscripten/emsdk:2.0.9
 MAINTAINER Ugur Cayoglu <cayoglu@me.com>
 
 RUN set -eux && \
