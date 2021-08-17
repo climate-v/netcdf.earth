@@ -1,11 +1,6 @@
-[submodule "hdf5-rust"]
-	path = hdf5-rust
-	url = git@github.com:climate-v/hdf5-rust.git
-	branch = v0.7.1-emscripten
-[submodule "netcdf-rust"]
-	path = netcdf-rust
-	url = git@github.com:climate-v/netcdf-rust.git
-	branch = v0.6.1-emscripten
 [submodule "earth"]
 	path = earth
 	url = git@github.com:climate-v/earth.git
+[submodule "head-scratcher"]
+	path = head-scratcher
+	url = git@github.com:climate-v/head-scratcher.git
