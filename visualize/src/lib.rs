@@ -1,11 +1,13 @@
+use crate::error::ToJs;
+use crate::utils::set_panic_hook;
+use crate::wasm_file::WasmFile;
+use crate::wrapper::new_wrapper;
 use headscratcher::NetCDF;
 use wasm_bindgen::prelude::*;
 use web_sys::Blob;
 use wrapper::NetCDFHandle;
-use crate::utils::set_panic_hook;
-use crate::wasm_file::WasmFile;
-use crate::wrapper::new_wrapper;
 
+mod error;
 mod utils;
 mod wasm_file;
 mod wrapper;
@@ -23,17 +25,23 @@ extern {
 }
 
 #[wasm_bindgen]
-pub fn load_file(blob: Blob) -> NetCDFHandle {
+pub fn load_file(blob: Blob) -> Result<NetCDFHandle, JsValue> {
     set_panic_hook();
     let wasm_file = WasmFile::new(blob);
-    let netcdf = NetCDF::new_from_file(wasm_file);
-    new_wrapper(netcdf)
+    let netcdf = match NetCDF::new_from_file(wasm_file) {
+        Ok(file) => file,
+        Err(hse) => return Err(hse.into_js()),
+    };
+    Ok(new_wrapper(netcdf))
 }
 
 #[wasm_bindgen]
-pub fn load_remote(url: String, size: usize) -> NetCDFHandle {
+pub fn load_remote(url: String, size: usize) -> Result<NetCDFHandle, JsValue> {
     set_panic_hook();
     let wasm_file = WasmFile::new_remote(url, size as u64);
-    let netcdf = NetCDF::new_from_file(wasm_file);
-    new_wrapper(netcdf)
+    let netcdf = match NetCDF::new_from_file(wasm_file) {
+        Ok(file) => file,
+        Err(hse) => return Err(hse.into_js()),
+    };
+    Ok(new_wrapper(netcdf))
 }
