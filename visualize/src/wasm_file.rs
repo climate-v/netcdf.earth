@@ -49,6 +49,10 @@ impl ReaderAbstraction for HttpReader {
         request.set_request_header("Content-Range", &format!("bytes {}-{}/*", start, end)).unwrap();
         request.set_request_header("Content-Length", &format!("{}", (end - start) + 1)).unwrap();
         request.open_with_async("GET", &self.url, false).unwrap();
+        // We need to set this to true, otherwise we don't transfer cookies.
+        // If we don't send cookies and the remote requires authentication, we can't
+        // access the data.
+        request.set_with_credentials(true);
         request.send().unwrap();
 
         let response_status = request.status().unwrap();
