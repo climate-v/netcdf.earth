@@ -4,3 +4,6 @@
 [submodule "head-scratcher"]
 	path = head-scratcher
 	url = git@github.com:climate-v/head-scratcher.git
+[submodule "visualize"]
+	path = visualize
+	url = git@github.com:climate-v/visualize.git
