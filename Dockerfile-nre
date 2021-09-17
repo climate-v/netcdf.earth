@@ -3,10 +3,10 @@ MAINTAINER Ugur Cayoglu <cayoglu@me.com>
 
 ADD ./head-scratcher /source/head-scratcher
 ADD ./visualize /source/visualize
-ADD ./build.sh /source/
+ADD ./build.nre.sh /source/
 
 WORKDIR /source
-RUN ./build.sh
+RUN ./build.nre.sh
 
 FROM node:16
 RUN mkdir /root/netcdf

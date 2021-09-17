@@ -7,7 +7,7 @@ The visualisation can be deployed natively or within a docker container.
 
 ### Building WASM
 To build the wasm module, just run the build script:
-    - `./build.sh`
+    - `./build.nre.sh`
 
 This already makes sure all the necessary dependencies are installed. 
 
@@ -28,7 +28,7 @@ Alternatively, to build a production artifact, instead of running the dev server
 
 Build container
 ```
-docker build --tag climate-v/nre:latest .
+docker build --tag climate-v/nre:latest --file Dockerfile-nre .
 ```
 
 Run/deploy container
