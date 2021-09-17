@@ -1,0 +1,69 @@
+version: "3"
+services:
+    nre:
+        build:
+            context: .
+            dockerfile: Dockerfile-nre
+        restart: always
+        networks:
+            - dataset-earth
+    nginx:
+        image: nginx:1.21-alpine
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./conf/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf
+            - ./conf/options-ssl-certs.conf:/etc/letsencrypt/options-ssl-certs.conf
+            - ./conf/dhparams.pem:/etc/letsencrypt/dhparams.pem
+            - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./www:/etc/nginx/html
+            - /etc/letsencrypt/live/dataset.earth/fullchain.pem:/etc/letsencrypt/live/dataset.earth/fullchain.pem
+            - /etc/letsencrypt/live/dataset.earth/privkey.pem:/etc/letsencrypt/live/dataset.earth/privkey.pem
+        depends_on:
+            - nre
+        networks:
+            - dataset-earth
+        restart: always
+        # send:
+        #     image: registry.gitlab.com/timvisee/send:latest
+        #     restart: always
+        #     volumes:
+        #         - ./uploads:/uploads
+        #     networks:
+        #         - openscience
+        #     environment:
+        #         # - VIRTUAL_HOST=send.dataset.earth
+        #         # - VIRTUAL_PORT=1234
+        #         # - DHPARAM_GENERATION=false
+        #         - NODE_ENV=production
+        #         - BASE_URL=https://send.dataset.earth
+        #         # - PORT=1234
+        #         - REDIS_HOST=redis
+        #         - FILE_DIR=/uploads
+
+        #         # time values are all in seconds, e.g. 30d * 60*60*24 = 2,592,000 seconds
+        #         - MAX_EXPIRE_SECONDS=2592000
+        #         - DEFAULT_EXPIRE_SECONDS=86400
+
+        #         # size values are are in bytes, e.g. 1GB * 1024*1024*1024 = 1,074,790,400 bytes
+        #         - MAX_FILE_SIZE=1074790400
+
+        #         # array configs are set as CSV (first entry is the default for the UI dropdown)
+        #         - EXPIRE_TIMES_SECONDS=86400,3600,86400,604800,2592000
+        #         - DOWNLOAD_COUNTS=10,1,2,5,10,15,25,50
+        #     depends_on:
+        #         - redis
+        # redis:
+        #     image: redis:alpine
+        #     restart: always
+        #     volumes:
+        #         - send-redis:/data
+        #     networks:
+        #         - dataset-earth
+
+volumes:
+    send-redis:
+
+networks:
+    dataset-earth:
