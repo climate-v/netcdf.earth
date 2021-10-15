@@ -17,9 +17,9 @@ services:
             - ./conf/options-ssl-certs.conf:/etc/letsencrypt/options-ssl-certs.conf
             - ./conf/dhparams.pem:/etc/letsencrypt/dhparams.pem
             - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-            - ./www:/etc/nginx/html
-            - /etc/letsencrypt/live/dataset.earth/fullchain.pem:/etc/letsencrypt/live/dataset.earth/fullchain.pem
-            - /etc/letsencrypt/live/dataset.earth/privkey.pem:/etc/letsencrypt/live/dataset.earth/privkey.pem
+            - /home/ucyo/git-workshop/tutorial-slides:/etc/nginx/html/workshop
+            - /etc/letsencrypt/live/dataset.earth-0001/fullchain.pem:/etc/letsencrypt/live/dataset.earth/fullchain.pem
+            - /etc/letsencrypt/live/dataset.earth-0001/privkey.pem:/etc/letsencrypt/live/dataset.earth/privkey.pem
         depends_on:
             - nre
         networks:
