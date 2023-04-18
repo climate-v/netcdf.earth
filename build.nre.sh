@@ -9,7 +9,7 @@ echo "==> Making sure wasm target is installed"
 rustup target add wasm32-unknown-unknown
 
 echo "==> Making sure wasm-pack is installed"
-cargo install wasm-pack
+curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 echo "==> Building wrapper library"
 cd "$VISUALIZE_DIR"
