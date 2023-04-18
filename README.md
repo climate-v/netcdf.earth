@@ -9,7 +9,7 @@ The visualisation can be deployed natively or within a docker container.
 To build the wasm module, just run the build script:
     - `./build.nre.sh`
 
-This already makes sure all the necessary dependencies are installed. 
+This already makes sure all the necessary dependencies are installed.
 
 ### Run & build web frontend
 
@@ -28,12 +28,12 @@ Alternatively, to build a production artifact, instead of running the dev server
 
 Build container
 ```
-docker build --tag climate-v/nre:latest --file Dockerfile-nre .
+docker build --tag climate-v/netcdf:latest --file Dockerfile .
 ```
 
 Run/deploy container
 ```
-docker run -p 80:80 climate-v/nre:latest
+docker run -p 80:80 climate-v/netcdf:latest
 ```
 
 # Usage
