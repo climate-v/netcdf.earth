@@ -1,4 +1,4 @@
-FROM rust:1.54
+FROM rust:1.69
 MAINTAINER Ugur Cayoglu <cayoglu@me.com>
 
 ADD ./head-scratcher /source/head-scratcher
@@ -8,7 +8,7 @@ ADD ./build.nre.sh /source/
 WORKDIR /source
 RUN ./build.nre.sh
 
-FROM node:16
+FROM node:20
 RUN mkdir /root/netcdf
 ADD ./earth /root/netcdf/earth
 COPY --from=0 /source/visualize/pkg /root/netcdf/earth/public/pkg
