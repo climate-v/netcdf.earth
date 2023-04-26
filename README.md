@@ -28,12 +28,12 @@ Alternatively, to build a production artifact, instead of running the dev server
 
 Build container
 ```
-docker build --tag climate-v/netcdf:latest --file Dockerfile .
+docker build --tag climate-v/netcdf.earth:latest --file Dockerfile .
 ```
 
 Run/deploy container
 ```
-docker run -p 80:80 climate-v/netcdf:latest
+docker run -p 80:80 climate-v/netcdf.earth:latest
 ```
 
 # Usage
